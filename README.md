@@ -17,7 +17,7 @@ Apparently twitter broke the ability to use custom image shorteners with their i
  * create the appropriate tables/privileges in mysql.
  * Set the variables at the top of `config.php`
  * Run the installation script by visiting <yoursite>/install.php.
-
+ * Make sure there is a `files` folder and it is writable by your server.
 ### Analytics
  * If you want to include any kind of google analytics, or your own statistics that require loading javascript, see the comments in `index.php` for instructions
  * There is _no tracking_ built in to shortnsweet.
