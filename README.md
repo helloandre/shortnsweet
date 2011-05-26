@@ -22,7 +22,7 @@ Apparently twitter broke the ability to use custom image shorteners with their i
  * Make sure there is a `files` folder and it is writable by your server.
 
 ### Spam Protection
-To gaurd agains mailcious sites being linked to with shortnsweet, integration with (Goole Safe Browsing API)[http://code.google.com/apis/safebrowsing/] has been included. In `config.php` there is a variable `$gsb_key`. To set it, visit (this page)[http://code.google.com/apis/safebrowsing/key_signup.html] to generate a key and use that as the value for `$gsb_key`.
+To gaurd agains mailcious sites being linked to with shortnsweet, integration with [Goole Safe Browsing API](http://code.google.com/apis/safebrowsing/) has been included. In `config.php` there is a variable `$gsb_key`. To set it, visit [this page](http://code.google.com/apis/safebrowsing/key_signup.html) to generate a key and use that as the value for `$gsb_key`.
 
 shortnsweet also checks any links sent for a response code. Any links that return a non-200 (notice, not 2xx) code will be rejected.
 
