@@ -42,8 +42,8 @@ $usable = array('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
  */		
 $url_length = 3;
 
-//mysql_connect("localhost", $db_user, $db_pass) or die("Database Connection Error: " . mysql_error());
-//mysql_select_db($db_name);
+mysql_connect("localhost", $db_user, $db_pass) or die("Database Connection Error: " . mysql_error());
+mysql_select_db($db_name);
 
 $current = getcwd()."/config.php";
 
@@ -51,6 +51,7 @@ $current = getcwd()."/config.php";
 function get_resp_code($url){
     $ch1 = curl_init();
     curl_setopt($ch1, CURLOPT_URL, $url);
+    curl_setopt($ch1, CURLOPT_RETURNTRANSFER, 1);
     curl_exec($ch1);
     $resp = curl_getinfo($ch1, CURLINFO_HTTP_CODE);
     curl_close($ch1);
