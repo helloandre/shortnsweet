@@ -15,13 +15,30 @@ $names = array();
 $shorts = mysql_query("SELECT `long`, `short` FROM `shorten`");
 // build array of previously used names
 while ($row = mysql_fetch_assoc($shorts)){
-	$names[$row['long']] = $row['short'];
+    $names[$row['long']] = $row['short'];
 }
 
 // if we've already shortened it before, don't duplicate the entry
 if (array_key_exists($site, $names)){
     echo "http://$site_url/".$names[$site];
     exit;
+}
+
+/**
+ * before we proceed, check to make sure the url is legit
+ **/
+if ($site && $gsb_url){
+    $gsb_url = 'https://sb-ssl.google.com/safebrowsing/api/lookup?client=shortnsweet&apikey='.$gsb_key.'&appver=1.5.2&pver=3.0&url='.urlencode($site);
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $gsb_url);
+    curl_exec($ch);
+    $resp = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    // for codes:
+    // http://code.google.com/apis/safebrowsing/lookup_guide.html#HTTPGETRequestResponseCode
+    if ($resp != 204){
+        echo "bad url";
+        exit;
+    }
 }
 
 // set filename initially

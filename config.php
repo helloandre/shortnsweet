@@ -1,4 +1,10 @@
 <?php
+/*******
+ * Google Safebrowsing API key
+ * see the README for instructions on how to set this value
+ ******/
+$gsb_key = null;
+
 /******
  * Basic config
  *****/
@@ -36,8 +42,9 @@ $usable = array('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
  */		
 $url_length = 3;
 
-mysql_connect("localhost", $db_user, $db_pass) or die("Database Connection Error: " . mysql_error());
-mysql_select_db($db_name);
+//mysql_connect("localhost", $db_user, $db_pass) or die("Database Connection Error: " . mysql_error());
+//mysql_select_db($db_name);
 
 $current = getcwd()."/config.php";
+
 ?>
