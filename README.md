@@ -24,6 +24,8 @@ Apparently twitter broke the ability to use custom image shorteners with their i
 ### Spam Protection
 To gaurd agains mailcious sites being linked to with shortnsweet, integration with (Goole Safe Browsing API)[http://code.google.com/apis/safebrowsing/] has been included. In `config.php` there is a variable `$gsb_key`. To set it, visit (this page)[http://code.google.com/apis/safebrowsing/key_signup.html] to generate a key and use that as the value for `$gsb_key`.
 
+shortnsweet also checks any links sent for a response code. Any links that return a non-200 (notice, not 2xx) code will be rejected.
+
 ### Analytics
  * If you want to include any kind of google analytics, or your own statistics that require loading javascript, see the comments in `index.php` for instructions
  * There is _no tracking_ built in to shortnsweet.
