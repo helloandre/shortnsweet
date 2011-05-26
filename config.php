@@ -47,4 +47,13 @@ $url_length = 3;
 
 $current = getcwd()."/config.php";
 
+
+function get_resp_code($url){
+    $ch1 = curl_init();
+    curl_setopt($ch1, CURLOPT_URL, $url);
+    curl_exec($ch1);
+    $resp = curl_getinfo($ch1, CURLINFO_HTTP_CODE);
+    curl_close($ch1);
+    return $resp;
+}
 ?>

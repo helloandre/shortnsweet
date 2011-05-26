@@ -11,6 +11,10 @@ else {
 	$site = $_GET['site'];
 }
 
+/**
+ * We do these checks first and assume that anything that has already gotten in is ok.
+ * Also to avoid doing expensive curl-ing before checking to see if we already have it
+ **/
 $names = array();
 $shorts = mysql_query("SELECT `long`, `short` FROM `shorten`");
 // build array of previously used names
@@ -27,15 +31,20 @@ if (array_key_exists($site, $names)){
 /**
  * before we proceed, check to make sure the url is legit
  **/
-if ($site && $gsb_url){
-    $gsb_url = 'https://sb-ssl.google.com/safebrowsing/api/lookup?client=shortnsweet&apikey='.$gsb_key.'&appver=1.5.2&pver=3.0&url='.urlencode($site);
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $gsb_url);
-    curl_exec($ch);
-    $resp = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    // for codes:
-    // http://code.google.com/apis/safebrowsing/lookup_guide.html#HTTPGETRequestResponseCode
-    if ($resp != 204){
+if ($site){
+    // google safe browsing http://code.google.com/apis/safebrowsing/
+    if ($gsb_key){
+        $gsb_url = 'https://sb-ssl.google.com/safebrowsing/api/lookup?client=shortnsweet&apikey='.$gsb_key.'&appver=1.5.2&pver=3.0&url='.urlencode($site);
+        // for codes:
+        // http://code.google.com/apis/safebrowsing/lookup_guide.html#HTTPGETRequestResponseCode
+        if (get_resp_code($gsb_url) != 204){
+            echo "bad url";
+            exit;
+        }
+    }
+
+    // if the link given does not return a-ok, assume it is spam and reject it
+    if (get_resp_code($site) != 200){
         echo "bad url";
         exit;
     }
