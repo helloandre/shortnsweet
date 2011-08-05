@@ -2,13 +2,13 @@
 include('config.php');
 $file = null;
 $site = null;
-if (empty($_FILES['media']['name']) && empty($_GET['site'])){
+if (!array_key_exists('media', $_FILES) && !array_key_exists('site', $_GET)){
 	echo "empty";
 	exit();
 }
 else {
-	$file = $_FILES['media'];
-	$site = $_GET['site'];
+	if (array_key_exists('media', $_FILES)) $file = $_FILES['media'];
+	if (array_key_exists('site', $_GET) $site = $_GET['site'];
 }
 
 /**

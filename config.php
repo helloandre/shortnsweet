@@ -1,4 +1,5 @@
 <?php
+if (!function_exists('curl_init')) die('Install cURL');
 /*******
  * Google Safebrowsing API key
  * see the README for instructions on how to set this value
@@ -49,6 +50,7 @@ $current = getcwd()."/config.php";
 
 
 function get_resp_code($url){
+    try_curl();
     $ch1 = curl_init();
     curl_setopt($ch1, CURLOPT_URL, $url);
     curl_setopt($ch1, CURLOPT_RETURNTRANSFER, 1);
