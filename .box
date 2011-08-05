@@ -9,3 +9,4 @@ url_rewrites:
             - "!-f $request_filename"
             - "!-d $request_filename"
 php_extensions: [mysql, curl]
+php_error_reporting: "E_ALL & ~E_NOTICE"
