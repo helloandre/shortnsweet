@@ -10,13 +10,13 @@ $gsb_key = null;
  *****/
 
 // The database name
-$db_name = "uploads";
+$db_name = "terrie";
 // this should almost always be localhost
-$db_host = "localhost";
+$db_host = "localhost:/tmp/mysql/terrie.sock";
 // the database user
-$db_user = "uploads_user";
+$db_user = "michal";
 // the database password
-$db_pass = "uploads_pass";
+$db_pass = "OnbrchLN";
 
 // this is where your url will go (really important)
 // without http://
@@ -42,7 +42,7 @@ $usable = array('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
  */		
 $url_length = 3;
 
-mysql_connect("localhost", $db_user, $db_pass) or die("Database Connection Error: " . mysql_error());
+mysql_connect($db_host, $db_user, $db_pass) or die("Database Connection Error: " . mysql_error());
 mysql_select_db($db_name);
 
 $current = getcwd()."/config.php";
