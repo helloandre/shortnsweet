@@ -3,8 +3,9 @@
 # You can ignore this
 ##########################
 url_rewrites:
-    rule: "^/(.+)$ index.php?i=$1"
-    conditions:
-        - "!-f $request_filename"
-        - "!-d $request_filename"
+    -
+        rule: "^/(.+)$ index.php?i=$1"
+        conditions:
+            - "!-f $request_filename"
+            - "!-d $request_filename"
 php_extensions: [mysql, curl]
