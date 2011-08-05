@@ -5,7 +5,7 @@ $analytics = false;
 
 include("config.php");
 $redirect = false;
-if ($_GET['i']){
+if (array_key_exists('i', $_GET)){
     include("view.php");
 }
 else {
