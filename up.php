@@ -8,7 +8,7 @@ if (!array_key_exists('media', $_FILES) && !array_key_exists('site', $_GET)){
 }
 else {
 	if (array_key_exists('media', $_FILES)) $file = $_FILES['media'];
-	if (array_key_exists('site', $_GET) $site = $_GET['site'];
+	if (array_key_exists('site', $_GET)) $site = $_GET['site'];
 }
 
 /**
