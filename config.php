@@ -11,11 +11,11 @@ $gsb_key = null;
  *****/
 
 // The database name
-$db_name = "terrie";
+$db_name = "shorten";
 // this should almost always be localhost
-$db_host = "localhost:/tmp/mysql/terrie.sock";
+$db_host = "localhost";
 // the database user
-$db_user = "michal";
+$db_user = "shorten_user";
 // the database password
 $db_pass = "OnbrchLN";
 

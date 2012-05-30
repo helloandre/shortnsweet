@@ -2,13 +2,15 @@
 include('config.php');
 $file = null;
 $site = null;
-if (!array_key_exists('media', $_FILES) && !array_key_exists('site', $_GET)){
+$img_data = null;
+if (!array_key_exists('image_data', $_POST) && !array_key_exists('media', $_FILES) && !array_key_exists('site', $_GET)){
 	echo "empty";
 	exit();
 }
 else {
 	if (array_key_exists('media', $_FILES)) $file = $_FILES['media'];
 	if (array_key_exists('site', $_GET)) $site = $_GET['site'];
+    if (array_key_exists('image_data', $_POST)) $img_data = $_POST['image_data'];
 }
 
 /**
@@ -23,7 +25,7 @@ while ($row = mysql_fetch_assoc($shorts)){
 }
 
 // if we've already shortened it before, don't duplicate the entry
-if (array_key_exists($site, $names)){
+if ($site && array_key_exists($site, $names)){
     echo "http://$site_url/".$names[$site];
     exit;
 }
@@ -84,9 +86,18 @@ if ($file){
 	    }
 	}
 }
-else {
+else if ($site){
 	if (!mysql_query("INSERT INTO `shorten` (`long`, `short`, `site`, `ip`, `tweet`) VALUES ('".mysql_escape_string($_GET['site'])."', '$filename', 1, '$_SERVER[REMOTE_ADDR]', '".mysql_escape_string($_POST['message'])."')")){
 		echo "error with database";
+        exit;
+    }
+}
+else {
+    file_put_contents("files/$filename-image_data", $_POST['image_data']);
+    if (!mysql_query("INSERT INTO `shorten` (`long`, `short`, `site`) VALUES ('image_data', '$filename', 0)")){
+        // echo "error with database";
+        // echo "INSERT INTO `shorten` (`long`, `short`, `site`) VALUES ('image_data', '$filename', 0";
+        echo mysql_error();
         exit;
     }
 }

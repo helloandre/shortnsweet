@@ -63,7 +63,11 @@ if ($row = mysql_fetch_assoc($result)):
             <?php echo $row['long']." - hotlink: http://$_SERVER[SERVER_NAME]/files/".$row['short']."-".htmlspecialchars($row['long']); ?>
             <br><br>
 	    <?php endif; ?>
-	        <img id='image' rel='<?php echo $_GET['i']?>' src='<?php echo "files/".$row['short']."-".$row['long'] ?>' onload='adjust()'/>
+            <?php if ($row['long'] === 'image_data'): ?>
+                <img id='image' src='<?php echo file_get_contents("files/".$row['short']."-".$row['long']); ?>' />
+            <?php else: ?>
+                <img id='image' rel='<?php echo $_GET['i']?>' src='<?php echo "files/".$row['short']."-".$row['long'] ?>' onload='adjust()'/>
+            <?php endif; ?>
 	        <?php
 				if ($row['tweet']):
 	                // replace all @ mentions

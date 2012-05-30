@@ -6,6 +6,7 @@ $query = "CREATE TABLE IF NOT EXISTS `shorten` (
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `site` tinyint(4) NOT NULL,
   `ip` varchar(20) DEFAULT NULL,
+  `tweet` varchar(160) DEFAULT NULL,
   UNIQUE KEY `short` (`short`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1";
 mysql_query($query) or die(mysql_error());
