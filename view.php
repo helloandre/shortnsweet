@@ -1,19 +1,17 @@
 <?php
-$query = "SELECT * FROM `shorten` WHERE `short` = '".mysql_escape_string($_GET['i'])."' LIMIT 1";
-$result = mysql_query($query);
-if ($row = mysql_fetch_assoc($result)):
-    if ($row['site']):
-        if (!$analytics) header("Location: $row[long]");
-        else $redirect = $row['long'];
+if ($view->found):
+    if ($view->is_site):
+        if (!$analytics) {
+            header("Location: {$view->long}");
+        } else {
+            Config::set_redirect($view->long);
+        }
     else:
-    	// not-very-sophisticated browser detection
-		$mobile = (stripos($_SERVER['HTTP_USER_AGENT'], 'iphone') || stripos($_SERVER['HTTP_USER_AGENT'], 'blackberry') || stripos($_SERVER['HTTP_USER_AGENT'], 'android')); ?>
+    ?>
 		<!DOCTYPE html>
 		<html>
 		<head>
-   		<?php
-        // for mobile browsers
-        if ($mobile): ?>
+   		<?php if ($view->is_mobile): ?>
             <meta name='viewport' content="width=320">
             <style>
                 img{width:310px}
@@ -55,27 +53,27 @@ if ($row = mysql_fetch_assoc($result)):
 				a{text-decoration: none;color: #a8a8a8;}
 			</style>
 		<?php endif; // end else statement for non-mobile browser ?>
-		    <title><?php echo $row['long'] ?></title>
+		    <title><?php echo $view->long ?></title>
 		</head>
 		<body>
-		<?php if (!$mobile):?>
-            <a href='index.php'>Home</a><br>
-            <?php echo $row['long']." - hotlink: http://$_SERVER[SERVER_NAME]/files/".$row['short']."-".htmlspecialchars($row['long']); ?>
-            <br><br>
+		<?php if (!$view->is_mobile):?>
+            <a href='index.php'>Home</a>
+            <p>
+                <?php echo $view->name ?> - hotlink: http://<?php echo Config::$site_url ?>/files/<?php echo $view->name ?>
+            </p>
+            <p>
 	    <?php endif; ?>
-            <?php if ($row['long'] === 'image_data'): ?>
-                <img id='image' src='<?php echo file_get_contents("files/".$row['short']."-".$row['long']); ?>' />
-            <?php else: ?>
-                <img id='image' rel='<?php echo $_GET['i']?>' src='<?php echo "files/".$row['short']."-".$row['long'] ?>' onload='adjust()'/>
-            <?php endif; ?>
-	        <?php
-				if ($row['tweet']):
-	                // replace all @ mentions
-	                $tweet = preg_replace('/\@([a-z0-9]+)/i', '@<a href="http://twitter.com/$1">$1</a>', $row['tweet']);
-					echo '<br><br>'.$tweet;
-				endif;
-	    endif; // else non-site
-// error?
+        <?php if ($view->name === 'image_data'): ?>
+            <img id='image' src='<?php echo file_get_contents("files/".$view->name); ?>' onload='adjust()'/>
+        <?php else: ?>
+            <img id='image' src='<?php echo "files/".$view->name?>' onload='adjust()'/>
+        <?php endif; ?>
+        <?php if ($view->message):?>
+            <p>
+                <?php echo $this->message ?>
+            </p>
+        <?php endif;
+    endif; // $view->is_site
 else: ?>
 <title>File Not Found</title>
 </head>

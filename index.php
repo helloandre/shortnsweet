@@ -1,11 +1,13 @@
 <?php
-// if you want to include some kind of analytics (google analytics, mixpanel, piwik, etc), set this variable to true:
-$analytics = false;
 // and then paste your analytics code below starting at line 16
 
-include("config.php");
+include("lib.php");
+
+Db::init();
+
 $redirect = false;
 if (array_key_exists('i', $_GET)){
+    $view = new View($_GET['i']);
     include("view.php");
 }
 else {
