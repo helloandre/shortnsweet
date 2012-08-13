@@ -86,7 +86,7 @@ class Db {
 
     function init(){
         if (!mysql_connect(self::$db_host, self::$db_user, self::$db_pass)){
-            Ressponse::out('db error ' . mysql_error());
+            Response::out('db error ' . mysql_error());
         } else {
             mysql_select_db(self::$db_name);
         }
