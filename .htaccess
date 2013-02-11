@@ -1,6 +1,14 @@
 <IfModule mod_rewrite.c>
 	RewriteEngine on
+    
+    RewriteRule ^/?$ web/home.html
+    
+    RewriteRule ^up/?$ web/index.php?action=upload [QSA,L]
+    
+    RewriteRule ^js/(.+)$ web/js/$1 [QSA,L]
+    RewriteRule ^file/(.+)$ files/$1 [QSA,L]
+    
 	RewriteCond %{REQUEST_FILENAME} !-d
 	RewriteCond %{REQUEST_FILENAME} !-f
-	RewriteRule ^(.*)$ index.php?i=$1 [QSA,L]
+	RewriteRule ^(.+)$ web/index.php?action=view&upload=$1 [QSA,L]
 </IfModule>
