@@ -29,7 +29,7 @@ class SnS {
     } 
     
     static function autoload($class) {
-        include "../lib/" . strtolower(str_replace("_", "/", $class)) . ".php";
+        include dirname(__FILE__) . "/" . strtolower(str_replace("_", "/", $class)) . ".php";
     }
     
     static function make_url($short) {
