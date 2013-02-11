@@ -1,6 +1,6 @@
 <?php
 
-require("../lib/SnS.php");
+require("../lib/sns.php");
 
 try {
     SnS::init();
