@@ -5,13 +5,15 @@ define("SNS_TYPE_URL", 1);
 
 class SnS {
     
-    static $files_base = "../files/";
+    static $files_base;
     
     static private $_data = array();
     
     static function init() {
         // override autoloader
         spl_autoload_register('SnS::autoload');
+        
+        self::$files_base = dirname(dirname(__FILE__)) . "/files/";
         
         Db::init();
         

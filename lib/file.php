@@ -21,7 +21,7 @@ class File extends Object {
         }
         
         // override long now so we can display it properly
-        $this->long = SnS::make_url("file/" . $this->loc);
+        $this->long = SnS::make_url("file/" . $this->short . "-" . $this->long);
     }
     
     private function generate_long() {
