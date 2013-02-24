@@ -5,7 +5,6 @@
     
     RewriteRule ^up/?$ web/index.php?action=upload [QSA,L]
     
-    RewriteRule ^js/(.+)$ web/js/$1 [QSA,L]
     RewriteRule ^file/(.+)$ files/$1 [QSA,L]
     
 	RewriteCond %{REQUEST_FILENAME} !-d
