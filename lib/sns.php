@@ -16,7 +16,9 @@ class SnS {
         self::$files_base = dirname(dirname(__FILE__)) . "/files/";
         
         Db::init();
-        
+    }
+    
+    static function run() {
         $action = self::determine_action();
         Action::$action();
     }
