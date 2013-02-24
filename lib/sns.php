@@ -17,14 +17,15 @@ class SnS {
         
         Db::init();
         
-        self::parseRequest();     
+        $action = self::determine_action();
+        Action::$action();
     }
     
-    static function parseRequest() {
+    static function determine_action() {
         $action = $_GET['action'];
         
         if (is_callable(array('Action', $action))) {
-            Action::$action();
+            return $action;
         } else {
             throw new Error_InvalidAction("invalid action");
         }

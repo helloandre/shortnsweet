@@ -1,3 +1,3 @@
 <?php
-class Error_Save extends Exception {}
+class Error_Save extends Error {}
 ?>

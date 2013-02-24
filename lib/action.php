@@ -10,11 +10,10 @@ class Action {
     }
     
     static function view() {
-        // fetch / set vars
-        View::init();
+        $template = View::run();
         
         // view template
-        include "../web/view.php";
+        include $template;
     }
 }
 

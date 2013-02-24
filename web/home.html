@@ -26,11 +26,30 @@
             background: #C7C7C7;
             border-radius: 10px;
             border: 1px solid #8F8F8F;
+            background-image: url(/shortnsweet/web/img/drop_or_click.png);
+            background-repeat: no-repeat;
+            background-position: 50%;
+            transition: opacity ease-in 0.25s;
+            -webkit-transition: opacity ease-in 0.25s;
+            -moz-transition: opacity ease-in 0.25s;
+            -o-transition: opacity ease-in 0.25s;
         }
-        #dropzone.entered {
-            background: #A7D4B2;
-            border: 1px solid #558762;
+        #dropzone.drop-hover {
+            -khtml-opacity:.30; 
+            -moz-opacity:.30; 
+            -ms-filter:"alpha(opacity=30)";
+            filter:alpha(opacity=30);
+            filter: progid:DXImageTransform.Microsoft.Alpha(opacity=0.3);
+            opacity:.30; 
+            transition: opacity ease-in 0.25s;
+            -webkit-transition: opacity ease-in 0.25s;
+            -moz-transition: opacity ease-in 0.25s;
+            -o-transition: opacity ease-in 0.25s;
         }
+        #dropzone .message {
+            display:none;
+        }
+        
         #instruction {
             color: #8F8F8F;
             font-size: 3em;
@@ -104,16 +123,18 @@
         #uploaded > div:nth-child(odd) {
             background: #BFBFBF;
         }
+        
+        .preview {
+            display:none;
+        }
     </style>
     <script src="http://abcdn.us/js/jquery.js"></script>
-    <script src='/shortnsweet/js/jquery.ui.widget.js'></script>
-    <script src='/shortnsweet/js/jquery.iframe-transport.js'></script>
-    <script src='/shortnsweet/js/jquery.fileupload.js'></script>
+    <script src='/shortnsweet/web/js/dropzone.js'></script>
     <script>
         (function($){
             var SnS = {
                 url: '/shortnsweet/up',
-                entered_class: 'entered',
+                entered_class: 'drop-hover',
                 $dropzone: null,
                 $url: null,
                 $url_button: null,
@@ -126,9 +147,13 @@
                 },
                 init: function() {
                     this.$dropzone = $('#dropzone')
-                        .on('dragenter', this._drag_enter.bind(this))
-                        .on('dragleave', this._drag_leave.bind(this))
-                        .on('dragover', this._drag_ignore);
+                        .on('dragenter', this.drag_enter.bind(this))
+                        .on('dragleave', this.reset.bind(this))
+                        .on('drop', this.reset.bind(this));
+                        
+                    $('#dropzone').data('dropzone')
+                        .on('success', this.build_img.bind(this))
+                        .on('error', this.error.bind(this));
                         
                     this.$action_drag = $('#action-drag');
                     this.$action_drop = $('#action-drop');
@@ -138,14 +163,9 @@
                     
                     // uploading binds
                     this.$url_button.on('click', this.upload_url.bind(this));
-                    this.$dropzone.fileupload({url: this.url});
-                    $('#backup').fileupload({url: this.url});
-                    this.$dropzone.bind('fileuploadalways', this._fu_done.bind(this));
                 },
                 upload_url: function(e) {
                     var that = this;
-                    
-                    that._drag_ignore(e);
                     
                     $.post(this.url, {
                         url: this.$url.val()
@@ -157,21 +177,7 @@
                         }
                     })
                 },
-                _fu_done: function(e, data) {
-                    var result = data.result;
-                    
-                    if (result.success) {
-                        this.reset(e);
-                        if (result.name) {
-                            this.build_img(result);
-                        } else {
-                            this.build_url(result);
-                        }
-                    } else {
-                        alert(result.error);
-                    }
-                },
-                build_img: function(data) {
+                build_img: function(file, data) {
                     var $img = this.templates.uploaded_img;
                     $img = $img.replace(/%long%/g, data.long);
                     $img = $img.replace(/%name%/g, data.name);
@@ -186,24 +192,18 @@
                     
                     this.$uploaded.append($url);
                 },
-                _drag_enter: function(e) {
-                    this._drag_ignore(e);
+                drag_enter: function(e) {
                     this.$dropzone.addClass(this.entered_class);
                     this.$action_drag.hide();
                     this.$action_drop.show();
-                },
-                _drag_leave: function(e) {
-                    this._drag_ignore(e);
-                    this.reset();
                 },
                 reset: function() {
                     this.$dropzone.removeClass(this.entered_class);
                     this.$action_drag.show();
                     this.$action_drop.hide();
                 },
-                _drag_ignore: function(e) {
-                    e.originalEvent.stopPropagation();
-                    e.originalEvent.preventDefault();
+                error: function(file, data) {
+                    alert(data.error);
                 }
             };
             
@@ -231,10 +231,9 @@
         <input type="text" id="url-input"> <button id='upload-button'>Shorten</button>
     </div>
     
-    <div id="dropzone">
-        <div id="instruction"><span id="action-drag">Drag</span><span id="action-drop">Drop</span> File Here</div>
-    </div>
-    
+    <form action="/shortnsweet/up" id="dropzone" class="dropzone">
+    </form>
+
     <div id="uploaded">
     </div>
 </body>

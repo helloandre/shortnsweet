@@ -2,20 +2,33 @@
 
 class Upload {
     
+    static private $object;
+    
     static function run() {
+        self::determine_object();
         
+        self::$object->save();
+        
+        return self::out();
+    }
+    
+    static function determine_object() {
         // determine what we're working with
         if (isset($_REQUEST['url'])) {
-            $object = new Url($_REQUEST['url']);
-        } else if (isset($_FILES['files'])) {
-            $object = new File($_FILES['files']);
+            self::$object = new Url($_REQUEST['url']);
+        } else if (isset($_FILES['file'])) {
+            self::$object = new File($_FILES['file']);
         } else {
-            throw new Error_EmptyUpload("nothing to upload");
+            throw new Error_EmptyUpload("nothing to upload", 404);
         }
-        
-        $object->save();
-        
-        return array('url' => SnS::make_url($object->short), 'long' => $object->long, 'name' => $object->name);
+    }
+    
+    static function out() {
+        return array(
+            'url' => SnS::make_url(self::$object->short), 
+            'long' => self::$object->long, 
+            'name' => self::$object->name
+        );
     }
 }
 

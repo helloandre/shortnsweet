@@ -6,11 +6,13 @@ class View {
     static $date;
     static $url;
     static $name = "Not Found";
+    static $template = "../web/view.php";
+    static $base = "file/";
     
     static private $type;
     static private $found = false;
 
-    public function init() {
+    public function run() {
         self::fetch();
         
         // if they're not running any kind of js analytics, redirect immediately
@@ -18,23 +20,29 @@ class View {
             Response::redirect(self::$long);
         }
         
-        self::$url = SnS::make_url("file/" . self::$short . "-" . self::$long);
+        self::$url = SnS::make_url(self::url());
+        
+        return self::$template;
     }
     
     private function fetch() {
         self::$short = mysql_escape_string($_GET['upload']);
         
-        $query = "SELECT * FROM `" . Config::$db_table . "` WHERE `short`='" . self::$short . "'";
-
-        if ($result = Db::q($query)) {
+        $query = "SELECT * FROM `" . Config::$db_table . "` WHERE `short`='" . self::$short . "' LIMIT 1";
+        $result = Db::q($query);
+        
+        if ($row = mysql_fetch_assoc($result)) {
             self::$found = true;
             
-            $row = mysql_fetch_assoc($result);
             self::$name = $row['name'];
             self::$long = $row['long'];
             self::$type = $row['type'];
             self::$date = date("m/d/y", strtotime($row['ts']));
         }
+    }
+    
+    private function url() {
+        return self::$base . self::$short . "-" . self::$long;
     }
     
     public function is_url() {

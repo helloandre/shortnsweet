@@ -1,6 +1,9 @@
 <?php
 
 class Response {
+    static $response_codes = array(
+        '404' => 'Not Found'  
+    );
     
     static function output_json() {
         header("Content-type: application/json");
@@ -10,16 +13,20 @@ class Response {
         header('Location: ' . $url);
     }
     
-    static function out($msg = array()){
-        die(json_encode($msg));
+    static function out($msg = array(), $code){
+        if ($code !== false) {
+            header("HTTP/1.0 $code {self::$response_codes[$code]}");
+        }
+        echo json_encode($msg);
+        die();
     }
     
     static function success($extras = array()) {
-        self::out(array_merge(array('success' => true), $extras));
+        self::out(array_merge(array('success' => true), $extras), 200);
     }
     
-    static function fail($error = "there was an error", $extras = array()) {
-        self::out(array_merge(array('success' => false, 'error' => $error), $extras));
+    static function fail($error = "there was an error", $error_code) {
+        self::out(array('success' => false, 'error' => $error), $error_code);
     }
     
 }

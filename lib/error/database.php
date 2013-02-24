@@ -1,3 +1,3 @@
 <?php
-class Error_Database extends Exception {}
+class Error_Database extends Error {}
 ?>

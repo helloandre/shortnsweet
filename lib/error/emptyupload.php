@@ -1,3 +1,3 @@
 <?php
-class Error_EmptyUpload extends Exception {}
+class Error_EmptyUpload extends Error {}
 ?>

@@ -8,16 +8,19 @@ class File extends Object {
     function __construct($upload_data) {
         parent::__construct();
         
-        $this->name = $upload_data['name'][0];
-        $this->tmp = $upload_data['tmp_name'][0];
+        $this->name = $upload_data['name'];
+        $this->tmp = $upload_data['tmp_name'];
         $this->type = SNS_TYPE_FILE;
         
         $this->generate_long();
     }
     
     public function save() {
-        if (!parent::save() || !$this->store_file()) {
-            throw new Error_Save("could not save file");
+        if (!$this->store_file()) {
+            throw new Error_Save("failed to move");
+        }
+        if (!parent::save()) {
+            throw new Error_Save("failed to store");
         }
         
         // override long now so we can display it properly

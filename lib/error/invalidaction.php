@@ -1,3 +1,3 @@
 <?php
-class Error_InvalidAction extends Exception {}
+class Error_InvalidAction extends Error {}
 ?>
