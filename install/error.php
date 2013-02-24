@@ -30,12 +30,11 @@ SnS::init();
     </div>
     
     <div id='sub-header'>
-        <h1>Installation Complete!</h1>
+        <h1>Error</h1>
     </div>
     
     <div id='center' class='post'>
-        <h1>Remove the /config directory</h1>
-        <h2><a href="<?php echo SnS::make_url('') ?>">Visit your site</a><h2>
+        <h2><a href="<?php echo SnS::make_url('install/') ?>">Try Again</a><h2>
     </div>
 </body>
 

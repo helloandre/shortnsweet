@@ -1,30 +1,59 @@
 <?php 
-include("../config.php");
-?>
-<!DOCTYPE html>
-<html>
+include("../lib/sns.php");
 
+SnS::init();
+?>
+<!doctype html>
 <head>
-	<title><?php echo $site_name ?></title>
-	<style>
-		body{text-align: center;color: #B4C5D3;}
-		a{font-size: 1.2em;color: #5D5D5D;padding: 3px;}
-	</style>	
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <title>Short 'n Sweet</title>
+    <meta name="description" content="andre bluehs file upload hosting">
+    <meta name="author" content="Andre Bluehs">
+
+    <link rel="shortcut icon" href="http://abcdn.us/img/andrebluehs/favicon.png" />
+    <link rel="stylesheet" href="http://abcdn.us/css/andrebluehs/style.css" />
 </head>
 
 <body>
-	You are about to populate a database with the following information:<br><br>
-	Name: <strong><?php echo $db_name ?></strong><br>
-	User: <strong><?php echo $db_user ?></strong><br>
-	Password: <strong><?php echo $db_pass ?></strong><br><br>
-	
-	Your site with the following information<br>
-	url: http://<strong><?php echo $site_url ?></strong><br>
-	name: <strong><?php echo $site_name ?></strong><br><br>
-	
-	If this seems incorrect, please edit:
-	<strong><?php echo $current ?></strong><br><br>
-	
-	Otherwise:<br>
-	<a href='complete.php'>Install >></a>
+    <div id='header'>
+        <div id='header-left'>
+            <h2>Short 'n Sweet</h2>
+        </div>
+        <div id='header-right'>
+            <ul class='horizontal'>
+                <li><a href='http://github.com/helloandre/shortnsweet/' target='_blank'>view source on github</a></li>
+            </ul>
+        </div>
+    </div>
+    
+    <div id='sub-header'>
+        <h1>Install</h1>
+    </div>
+    
+    <div id='center' class='post'>
+        <h3>You are about to populate a database with the following information:</h3>
+        
+        <p>If any of the below information is incorrect, please edit /lib/config.php</p>
+        	
+        <dl>
+        	<dt>DB Name: </dt>
+        	<dd><?php echo Config::$db_name ?></dd>
+        	
+        	<dt>DB User: </dt>
+        	<dd><?php echo Config::$db_user ?></dd>
+        	
+        	<dt>DB Password: </dt>
+        	<dd><?php echo Config::$db_pass ?></dd>
+        	
+        	<dt>DB Table: </dt>
+        	<dd><?php echo Config::$db_table ?></dd>
+        	
+        	<dt>DB Host: </dt>
+        	<dd><?php echo Config::$db_host ?></dd>
+        </dl>
+        
+		<h2><a href='install.php'>Install >></a><h2>
+    </div>
 </body>
