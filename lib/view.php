@@ -26,7 +26,7 @@ class View {
     }
     
     private function fetch() {
-        self::$short = mysql_escape_string($_GET['upload']);
+        self::$short = mysql_escape_string(trim($_GET['upload']), "/");
         
         $query = "SELECT * FROM `" . Config::$db_table . "` WHERE `short`='" . self::$short . "' LIMIT 1";
         $result = Db::q($query);
