@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="http://abcdn.us/css/andrebluehs/style.css">
     <style>
         #image-container {
-            padding-top: 1%;
+            padding-top: 5px;
             text-align: center;
         }
     </style>
@@ -51,32 +51,23 @@
              * DON'T TOUCH BELOW HERE
              *
              */
+            var orig_height = 999999;
+            var orig_width = 999999;
 			var adjust = function(img) {
-				var new_width,
-                    new_height,
-                    height = $(window).height() - 170,
-                    width = $(window).width() - 20,
+				var max_height = $(window).height() - $('#header').height() - $('#sub-header').height() - 10,
+                    max_width = $(window).width() - 20,
                     img_height = $(img).height(),
                     img_width = $(img).width(),
-                    min = Math.min(width, height),
+                    new_height = img_height,
+                    new_width = img_width,
                     ratio = img_width / img_height;
                 
-                if (width < height) {
-                    if (img_width > min) {
-                        new_width = min;
-                    } else {
-                        new_width = width;
-                    }
-                    
-                    new_height = new_width / ratio;
-                } else {
-                    if (img_height > min) {
-                        new_height = min;
-                    } else {
-                        new_height = height;
-                    }
-                    
+                if (img_height > max_height) {
+                    new_height = max_height;
                     new_width = ratio * new_height;
+                } else if (img_width > max_width){
+                    new_width = max_width;
+                    new_height = new_width / ratio;
                 }
                 
 				$("#image").attr('width', new_width);
@@ -84,9 +75,8 @@
 			}
             
             $(function(){
-                $(window).on('resize', function(){
-                    adjust($('#image'));
-                });
+                orig_height = $('#image').height();
+                orig_width = $('#image').width();
             });
 		</script>
         <div id='sub-header'>
