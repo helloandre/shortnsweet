@@ -28,7 +28,7 @@ class File extends Object {
     }
     
     private function generate_long() {
-        $ext_pos = strpos($this->name, ".");
+        $ext_pos = strrpos($this->name, ".");
         $base = substr($this->name, 0, $ext_pos);
         $ext = substr($this->name, $ext_pos);
         $this->long = preg_replace("/[^a-zA-Z0-9]+/", "-", $base) . $ext;
