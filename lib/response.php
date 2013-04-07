@@ -13,9 +13,9 @@ class Response {
         header('Location: ' . $url);
     }
     
-    static function out($msg = array(), $code){
+    static function out($msg = array(), $code = 404){
         if ($code !== false) {
-            header("HTTP/1.0 $code {self::$response_codes[$code]}");
+            header("HTTP/1.0 $code ". self::$response_codes[$code]);
         }
         echo json_encode($msg);
         die();
